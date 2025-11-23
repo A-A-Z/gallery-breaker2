@@ -8,7 +8,7 @@ import gallery from '../data/gallery.json'
 // const count = ref(0)
 
 const wordsArray = words.split('\n')
-const letters = gallery['6']
+const letters = gallery['7']
 console.log(letters, wordsArray[2], wordsArray.length)
 const lettersCount = letters.length
 // const hasMinLetters = lettersCount >= MIN_LETTERS
@@ -38,5 +38,18 @@ console.log({ results })
 </template>
 
 <style scoped>
+ul {
+  display: grid;
+  list-style-type: none;
+  gap: 1rem;
+  grid-template-columns: repeat(6, max-content);
+}
 
+li {
+  font-family: "Source Code Pro", monospace;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: 1.1rem;
+  font-style: normal;
+}
 </style>

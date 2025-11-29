@@ -2,47 +2,54 @@
 import { computed } from 'vue'
 import words from '../data/words.txt?raw'
 import gallery from '../data/gallery.json'
+import type { GalleryIndex } from '../types'
 
-// defineProps<{ msg: string }>()
+interface ResultsProps {
+  selected: GalleryIndex
+}
 
-// const count = ref(0)
+const { selected } = defineProps<ResultsProps>()
 
-const wordsArray = words.split('\n')
-const letters = gallery['7']
-console.log(letters, wordsArray[2], wordsArray.length)
-const lettersCount = letters.length
-// const hasMinLetters = lettersCount >= MIN_LETTERS
-
-// const pattern = computed(() => {
-//   // create a array of strings for regex ranges
-//   const ranges = letters.map(group => `[${group.join('')}]`)
-//   // join all ranges into a single RegExp value
-//   return new RegExp(`^${ranges.join('')}$`)
-// })
-const ranges = letters.map(group => `[${group.join('')}]`)
-  // join all ranges into a single RegExp value
-const pattern = new RegExp(`^${ranges.join('')}$`)
+const wordsArray = words.split('\n').map(word => word.trim())
 
 const results = computed(() => {
+  const letters = gallery[selected] ?? []
+  const lettersCount = letters.length
+  const ranges = letters.map(group => `[${group.join('')}]`)
+  const pattern = new RegExp(`^${ranges.join('')}$`)
   return wordsArray.filter(word => word.length !== lettersCount ? false : pattern.test(word))
 })
-
-console.log({ results })
 </script>
 
 <template>
-  <h2>Results</h2>
-  <ul>
-    <li v-for="result in results" key="result">{{ result }}</li>
-  </ul>
+  <section>
+    <h2>Results {{ selected }}</h2>
+    <p>{{ results.length }} matches</p>
+    <ul>
+      <li v-for="result in results" key="result">{{ result }}</li>
+    </ul>
+  </section>
 </template>
 
 <style scoped>
+h2 {
+  font-size: 2.5rem;
+  margin: 1rem 0 0 0;
+  padding: 0;
+}
+
+p {
+  margin: 0.5rem 0 1.5rem 0;
+  padding: 0;
+}
+
 ul {
   display: grid;
   list-style-type: none;
   gap: 1rem;
   grid-template-columns: repeat(6, max-content);
+  margin: 0;
+  padding: 0;
 }
 
 li {

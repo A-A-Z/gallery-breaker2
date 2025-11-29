@@ -1,11 +1,23 @@
 <script setup lang="ts">
-// import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+import Nav from './components/Nav.vue'
 import Results from './components/Results.vue'
+import type { GalleryIndex } from './types'
+
+const selected = ref(7)
+
+const handleSelect = (value: number) => {
+  selected.value = value
+}
 </script>
 
 <template>
   <main>
-    <Results />
+    <Nav
+      :selected="selected"
+      @select="handleSelect"
+    />
+    <Results :selected="String(selected) as GalleryIndex" />
   </main>
 </template>
 
